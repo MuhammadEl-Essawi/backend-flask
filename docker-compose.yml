@@ -1,0 +1,109 @@
+# ──────────────────────────────────────────────────────
+# 🐳 Rently – Docker Compose (Development)
+# ──────────────────────────────────────────────────────
+# Usage:
+#   docker-compose up --build        → Build & start all services
+#   docker-compose up -d             → Start in background
+#   docker-compose down              → Stop all services
+#   docker-compose down -v           → Stop & delete volumes (⚠️ deletes DB data)
+#   docker-compose logs flask-api    → View Flask logs
+#   docker-compose logs dotnet-api   → View .NET logs
+# ──────────────────────────────────────────────────────
+
+services:
+
+  # ─────────────────────────────────────
+  # 🗄️ SQL Server 2022 (shared database)
+  # ─────────────────────────────────────
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: rently-db
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Rently@Dev2024
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqldata:/var/opt/mssql
+    networks:
+      - rently-net
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "Rently@Dev2024" -C -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    restart: unless-stopped
+
+  # ─────────────────────────────────────
+  # 🐍 Flask API (Mobile App Backend)
+  # ─────────────────────────────────────
+  flask-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rently-flask-api
+    env_file:
+      - env.docker.env
+    environment:
+      - SA_PASSWORD=Rently@Dev2024
+    ports:
+      - "5000:5000"
+    volumes:
+      - flask-uploads:/app/uploads
+    networks:
+      - rently-net
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ─────────────────────────────────────
+  # ⚡ .NET API (Admin Management Dashboard)
+  # ─────────────────────────────────────
+  dotnet-api:
+    build:
+      context: ./.net backend/Rently.Management-main
+      dockerfile: Dockerfile
+    container_name: rently-dotnet-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5001
+      - ConnectionStrings__DefaultConnection=Server=db,1433;Database=RentlyDbNew;User Id=sa;Password=Rently@Dev2024;TrustServerCertificate=True;MultipleActiveResultSets=true;
+      - Jwt__Issuer=Rently.Management
+      - Jwt__Audience=Rently.Management.Clients
+      - Jwt__Key=DEV_CHANGE_THIS_KEY_32_CHARS_MINIMUM_LENGTH
+      - Jwt__ExpiresMinutes=60
+      - Admin__Email=admin@rently.com
+      - Admin__Password=Admin@Rently2024
+      - Webhooks__Flask__Url=http://flask-api:5000/webhook/rently
+      - Webhooks__Flask__Secret=DEV_FLASK_WEBHOOK_SECRET
+      - Webhooks__Flask__Enabled=true
+      - Paymob__BaseUrl=https://accept.paymob.com/api
+      - Paymob__RedirectionUrl=http://localhost:5000/api/payment/paymob/callback
+      - Paymob__PartnerWebhookUrl=http://flask-api:5000/webhook/payment
+    ports:
+      - "5001:5001"
+    networks:
+      - rently-net
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+# ─────────────────────────────────────
+# 📦 Volumes
+# ─────────────────────────────────────
+volumes:
+  sqldata:
+    driver: local
+  flask-uploads:
+    driver: local
+
+# ─────────────────────────────────────
+# 🌐 Networks
+# ─────────────────────────────────────
+networks:
+  rently-net:
+    driver: bridge

@@ -1,0 +1,57 @@
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Environment files (injected via docker-compose)
+.env
+env.docker.env
+env.template.env
+
+# Database files (created at runtime)
+*.db
+*.sqlite3
+instance/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Other project directories (not needed in Flask image)
+.net backend/
+presentation/
+rently-dashboard/
+rently-landing/
+design-system/
+Docs/
+documentations/
+security_tests/
+github/
+
+# Large files
+*.docx
+*.html
+Rently_Backend_Full_Code.txt
+Rently_API.json
+Mahmoud_API.json
+Rently_API_Collection.postman_collection.json
+Security_Report.html
+pentest_report_v5.docx
+security_tests.csv
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore

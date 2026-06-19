@@ -1,0 +1,5 @@
+test_case,email,password,expected_status
+SQL Injection Attempt,admin' OR '1'='1,MyPass123!,401
+Weak Password Test,ahmed@example.com,12,401
+Empty Email Test,,MyPass123!,400
+Unverified User Login,ahmed@example.com,MyPass123,403

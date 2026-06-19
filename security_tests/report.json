@@ -1,0 +1,507 @@
+{
+  "generated_at": "2026-02-27T02:46:35.271111",
+  "total_tests": 93,
+  "passed": 86,
+  "failed": 7,
+  "percentage": 92.5,
+  "sections": [
+    {
+      "section": "Auth",
+      "total": 17,
+      "passed": 16,
+      "failed": 1,
+      "percentage": 94.1,
+      "results": [
+        {
+          "status": "PASS",
+          "message": "Register: empty body → 400"
+        },
+        {
+          "status": "PASS",
+          "message": "Register: weak password → 400"
+        },
+        {
+          "status": "FAIL",
+          "message": "Register: invalid email → 201"
+        },
+        {
+          "status": "PASS",
+          "message": "Register: role=admin → handled (overridden to renter)"
+        },
+        {
+          "status": "PASS",
+          "message": "Register: duplicate email → 400"
+        },
+        {
+          "status": "PASS",
+          "message": "Login: wrong password → 401"
+        },
+        {
+          "status": "PASS",
+          "message": "Login: non-existent user → 401"
+        },
+        {
+          "status": "PASS",
+          "message": "Login: empty body → 400"
+        },
+        {
+          "status": "PASS",
+          "message": "Forgot password: unknown email → 200 (anti-enumeration)"
+        },
+        {
+          "status": "PASS",
+          "message": "Forgot password: empty → 400"
+        },
+        {
+          "status": "PASS",
+          "message": "Verify OTP: empty → 400"
+        },
+        {
+          "status": "PASS",
+          "message": "Verify OTP: wrong code → rejected"
+        },
+        {
+          "status": "PASS",
+          "message": "Reset password: empty → 400"
+        },
+        {
+          "status": "PASS",
+          "message": "Change password: empty → 400"
+        },
+        {
+          "status": "PASS",
+          "message": "Change password: wrong current → 401"
+        },
+        {
+          "status": "PASS",
+          "message": "Change password: weak new → 400"
+        },
+        {
+          "status": "PASS",
+          "message": "Change password: no token → 401/422"
+        }
+      ]
+    },
+    {
+      "section": "Cars",
+      "total": 12,
+      "passed": 12,
+      "failed": 0,
+      "percentage": 100.0,
+      "results": [
+        {
+          "status": "PASS",
+          "message": "List cars → 200 with cars array"
+        },
+        {
+          "status": "PASS",
+          "message": "List cars with filters → 200"
+        },
+        {
+          "status": "PASS",
+          "message": "List cars: pagination fields present"
+        },
+        {
+          "status": "PASS",
+          "message": "Get car detail → has all expected fields"
+        },
+        {
+          "status": "PASS",
+          "message": "Get car 99999 → 404"
+        },
+        {
+          "status": "PASS",
+          "message": "My cars (owner) → 200"
+        },
+        {
+          "status": "PASS",
+          "message": "My cars (renter) → 403"
+        },
+        {
+          "status": "PASS",
+          "message": "Add car (renter) → 403"
+        },
+        {
+          "status": "PASS",
+          "message": "List cars: no token → 401/422"
+        },
+        {
+          "status": "PASS",
+          "message": "SQLi '' OR '1'='1' → no crash"
+        },
+        {
+          "status": "PASS",
+          "message": "SQLi ''; DROP TABLE car; --' → no crash"
+        },
+        {
+          "status": "PASS",
+          "message": "SQLi 'UNION SELECT 1,2,3' → no crash"
+        }
+      ]
+    },
+    {
+      "section": "Bookings",
+      "total": 11,
+      "passed": 11,
+      "failed": 0,
+      "percentage": 100.0,
+      "results": [
+        {
+          "status": "PASS",
+          "message": "Create booking → 201 (id=101)"
+        },
+        {
+          "status": "PASS",
+          "message": "Create booking: empty → 400"
+        },
+        {
+          "status": "PASS",
+          "message": "Create booking: end < start → 400"
+        },
+        {
+          "status": "PASS",
+          "message": "Create booking: past date → 400"
+        },
+        {
+          "status": "PASS",
+          "message": "List bookings: ?status=pending → 200"
+        },
+        {
+          "status": "PASS",
+          "message": "Get booking #101 → 200"
+        },
+        {
+          "status": "PASS",
+          "message": "Bookings calendar → 200"
+        },
+        {
+          "status": "PASS",
+          "message": "Approve booking (renter) → 403"
+        },
+        {
+          "status": "PASS",
+          "message": "Cancel booking #101 → 200"
+        },
+        {
+          "status": "PASS",
+          "message": "Cancel already cancelled → 400"
+        },
+        {
+          "status": "PASS",
+          "message": "Bookings: no token → 401/422"
+        }
+      ]
+    },
+    {
+      "section": "Favorites",
+      "total": 5,
+      "passed": 4,
+      "failed": 1,
+      "percentage": 80.0,
+      "results": [
+        {
+          "status": "PASS",
+          "message": "Add favorite → 201/400 (already exists)"
+        },
+        {
+          "status": "FAIL",
+          "message": "Get favorites → 500"
+        },
+        {
+          "status": "PASS",
+          "message": "Add favorite car 99999 → 404"
+        },
+        {
+          "status": "PASS",
+          "message": "Remove favorite → 200/404"
+        },
+        {
+          "status": "PASS",
+          "message": "Favorites: no token → 401/422"
+        }
+      ]
+    },
+    {
+      "section": "Reviews",
+      "total": 4,
+      "passed": 4,
+      "failed": 0,
+      "percentage": 100.0,
+      "results": [
+        {
+          "status": "PASS",
+          "message": "List reviews → 200"
+        },
+        {
+          "status": "PASS",
+          "message": "Add review: rating=10 → rejected"
+        },
+        {
+          "status": "PASS",
+          "message": "Add review: empty → 400"
+        },
+        {
+          "status": "PASS",
+          "message": "Add review: no token → 401/422"
+        }
+      ]
+    },
+    {
+      "section": "Profile",
+      "total": 4,
+      "passed": 3,
+      "failed": 1,
+      "percentage": 75.0,
+      "results": [
+        {
+          "status": "PASS",
+          "message": "Get profile → has all expected fields"
+        },
+        {
+          "status": "FAIL",
+          "message": "Update profile → 500"
+        },
+        {
+          "status": "PASS",
+          "message": "Update profile: email change → 400"
+        },
+        {
+          "status": "PASS",
+          "message": "Profile: no token → 401/422"
+        }
+      ]
+    },
+    {
+      "section": "Messages",
+      "total": 8,
+      "passed": 8,
+      "failed": 0,
+      "percentage": 100.0,
+      "results": [
+        {
+          "status": "PASS",
+          "message": "Send message → 201"
+        },
+        {
+          "status": "PASS",
+          "message": "Message to self → 400"
+        },
+        {
+          "status": "PASS",
+          "message": "Send message: empty → 400"
+        },
+        {
+          "status": "PASS",
+          "message": "Send message: too long → 400"
+        },
+        {
+          "status": "PASS",
+          "message": "Send message: user 99999 → 404"
+        },
+        {
+          "status": "PASS",
+          "message": "Get conversation → 200"
+        },
+        {
+          "status": "PASS",
+          "message": "Inbox: has unread_count + other_user fields"
+        },
+        {
+          "status": "PASS",
+          "message": "Inbox: no token → 401/422"
+        }
+      ]
+    },
+    {
+      "section": "Notifications",
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "percentage": 100.0,
+      "results": [
+        {
+          "status": "PASS",
+          "message": "Get notifications → 200"
+        },
+        {
+          "status": "PASS",
+          "message": "Unread count → has unread_count field"
+        },
+        {
+          "status": "PASS",
+          "message": "Mark all read → 200"
+        },
+        {
+          "status": "PASS",
+          "message": "Mark read #99999 → 404"
+        },
+        {
+          "status": "PASS",
+          "message": "Notifications: no token → 401/422"
+        }
+      ]
+    },
+    {
+      "section": "Search History",
+      "total": 6,
+      "passed": 2,
+      "failed": 4,
+      "percentage": 33.3,
+      "results": [
+        {
+          "status": "FAIL",
+          "message": "Save search → 500"
+        },
+        {
+          "status": "PASS",
+          "message": "Save search: empty query → 400"
+        },
+        {
+          "status": "FAIL",
+          "message": "Get search history → 500"
+        },
+        {
+          "status": "FAIL",
+          "message": "Save duplicate → 500"
+        },
+        {
+          "status": "FAIL",
+          "message": "Clear history → 500"
+        },
+        {
+          "status": "PASS",
+          "message": "Search history: no token → 401/422"
+        }
+      ]
+    },
+    {
+      "section": "Partner Program",
+      "total": 4,
+      "passed": 4,
+      "failed": 0,
+      "percentage": 100.0,
+      "results": [
+        {
+          "status": "PASS",
+          "message": "Apply as partner → 201/400 (already applied)"
+        },
+        {
+          "status": "PASS",
+          "message": "Apply: missing fields → 400"
+        },
+        {
+          "status": "PASS",
+          "message": "Partner status → 200"
+        },
+        {
+          "status": "PASS",
+          "message": "Partner apply: no token → 401/422"
+        }
+      ]
+    },
+    {
+      "section": "Static Pages",
+      "total": 3,
+      "passed": 3,
+      "failed": 0,
+      "percentage": 100.0,
+      "results": [
+        {
+          "status": "PASS",
+          "message": "Privacy policy → has title + content"
+        },
+        {
+          "status": "PASS",
+          "message": "Terms of service → 200"
+        },
+        {
+          "status": "PASS",
+          "message": "Invite info → 200"
+        }
+      ]
+    },
+    {
+      "section": "JWT Security",
+      "total": 7,
+      "passed": 7,
+      "failed": 0,
+      "percentage": 100.0,
+      "results": [
+        {
+          "status": "PASS",
+          "message": "Fake JWT on /cars → 401/422"
+        },
+        {
+          "status": "PASS",
+          "message": "Fake JWT on /bookings → 401/422"
+        },
+        {
+          "status": "PASS",
+          "message": "Fake JWT on /users/profile → 401/422"
+        },
+        {
+          "status": "PASS",
+          "message": "Fake JWT on /favorites → 401/422"
+        },
+        {
+          "status": "PASS",
+          "message": "Fake JWT on /notifications → 401/422"
+        },
+        {
+          "status": "PASS",
+          "message": "Fake JWT on /messages/inbox → 401/422"
+        },
+        {
+          "status": "PASS",
+          "message": "Fake JWT on /search/history → 401/422"
+        }
+      ]
+    },
+    {
+      "section": "Webhook Security",
+      "total": 4,
+      "passed": 4,
+      "failed": 0,
+      "percentage": 100.0,
+      "results": [
+        {
+          "status": "PASS",
+          "message": "Payment webhook: no key → 401"
+        },
+        {
+          "status": "PASS",
+          "message": "Payment webhook: wrong key → 401"
+        },
+        {
+          "status": "PASS",
+          "message": "Admin webhook: no key → 401"
+        },
+        {
+          "status": "PASS",
+          "message": "Admin webhook: wrong key → 401"
+        }
+      ]
+    },
+    {
+      "section": "Upload Security",
+      "total": 3,
+      "passed": 3,
+      "failed": 0,
+      "percentage": 100.0,
+      "results": [
+        {
+          "status": "PASS",
+          "message": "Upload .py/.exe as car → rejected/sanitized"
+        },
+        {
+          "status": "PASS",
+          "message": "Upload .php as profile → 400"
+        },
+        {
+          "status": "PASS",
+          "message": "Upload .jsp as partner photo → handled safely"
+        }
+      ]
+    }
+  ]
+}

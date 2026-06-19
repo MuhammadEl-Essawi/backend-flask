@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RENTLY | Premium Motion in Egypt</title>
+    
+    <!-- Google Fonts: Barlow Condensed -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* COLOR PALETTE & VARIABLES */
+        :root {
+            --bg: #0C0C0F;
+            --accent: #A78BFA;
+            --secondary: #C0C8D8;
+            --text-muted: rgba(192, 200, 216, 0.45);
+            --card-bg: rgba(167, 139, 250, 0.04);
+            --card-border: rgba(167, 139, 250, 0.15);
+            --font-main: 'Barlow Condensed', sans-serif;
+        }
+
+        /* BASE RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: #FFFFFF;
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* UTILITIES */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 4rem;
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-up.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* NAVBAR */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.4s ease;
+        }
+
+        nav.scrolled {
+            padding: 1rem 4rem;
+            background: rgba(12, 12, 15, 0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(167, 139, 250, 0.1);
+        }
+
+        .logo {
+            font-weight: 900;
+            font-size: 1.8rem;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            background-color: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Watermark Background */
+        .hero-watermark {
+            position: absolute;
+            font-size: 22rem;
+            font-weight: 900;
+            color: rgba(167, 139, 250, 0.06);
+            white-space: nowrap;
+            top: 45%;
+            left: 5%;
+            transform: translateY(-50%);
+            z-index: 1;
+            pointer-events: none;
+            animation: watermark-drift 40s linear infinite;
+        }
+
+        @keyframes watermark-drift {
+            0% { transform: translate(0, -50%); }
+            100% { transform: translate(-100vw, -50%); }
+        }
+
+        /* Car Image */
+        .hero-car {
+            position: absolute;
+            width: 75%;
+            height: 70%;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .hero-car img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            mix-blend-mode: screen;
+            opacity: 0.9;
+            transform: scale(1.05);
+            animation: car-scale-in 2s ease-out forwards;
+        }
+
+        @keyframes car-scale-in {
+            to { transform: scale(1); }
+        }
+
+        /* Hero UI Overlay */
+        .hero-hud {
+            position: relative;
+            z-index: 5;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 4rem;
+        }
+
+        .hero-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            width: 100%;
+        }
+
+        .hero-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .stat-block {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-number {
+            font-weight: 900;
+            font-size: 3rem;
+            color: var(--accent);
+            line-height: 0.8;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--secondary);
+            margin-top: 0.4rem;
+        }
+
+        .hero-headline {
+            position: absolute;
+            bottom: 4rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            text-align: center;
+            letter-spacing: -0.02em;
+            max-width: 600px;
+        }
+
+        .hero-cta-card {
+            background-color: var(--accent);
+            color: var(--bg);
+            padding: 1.5rem 2.5rem;
+            border-radius: 2px;
+            font-weight: 900;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hero-cta-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(167, 139, 250, 0.4);
+        }
+
+        /* FEATURES SECTION */
+        .features-section {
+            padding: 10rem 0;
+            background-color: var(--bg);
+        }
+
+        .features-title {
+            font-weight: 900;
+            font-size: 3rem;
+            text-transform: uppercase;
+            margin-bottom: 5rem;
+            color: #FFFFFF;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-top: 2px solid var(--accent);
+            padding: 4rem 3rem;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(167, 139, 250, 0.5);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(167, 139, 250, 0.1);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            color: var(--accent);
+        }
+
+        .feature-card h3 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .feature-card p {
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            line-height: 1.6;
+            letter-spacing: 0.05em;
+        }
+
+        /* STATS STRIP */
+        .stats-strip {
+            padding: 6rem 0;
+            background-color: #08080A;
+            border-y: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            text-align: center;
+        }
+
+        .stats-strip .stat-number {
+            font-size: 5rem;
+        }
+
+        .stats-strip .stat-label {
+            font-size: 1rem;
+            letter-spacing: 0.3em;
+        }
+
+        /* HOW IT WORKS */
+        .how-section {
+            padding: 10rem 0;
+        }
+
+        .how-list {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .how-item {
+            display: flex;
+            gap: 4rem;
+            margin-bottom: 6rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .how-num {
+            font-size: 0.8rem;
+            font-weight: 900;
+            color: var(--accent);
+            opacity: 0.8;
+            padding-top: 0.5rem;
+        }
+
+        .how-content h4 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .how-content p {
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            max-width: 500px;
+        }
+
+        .how-line {
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(180deg, transparent, var(--accent), transparent);
+            opacity: 0.3;
+        }
+
+        /* DOWNLOAD CTA */
+        .download-cta {
+            padding: 12rem 0;
+            text-align: center;
+        }
+
+        .download-cta h2 {
+            font-weight: 900;
+            font-size: 8rem;
+            letter-spacing: -0.03em;
+            line-height: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .download-cta p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 4rem;
+            letter-spacing: 0.1em;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .btn-outline {
+            padding: 1.2rem 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 4rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 3rem;
+        }
+
+        /* MOBILE FIXES */
+        @media (max-width: 1024px) {
+            .hero-headline { font-size: 2.5rem; width: 80%; }
+            .hero-watermark { font-size: 12rem; }
+            .features-grid { grid-template-columns: 1fr; }
+            .download-cta h2 { font-size: 4rem; }
+            .container { padding: 0 2rem; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar">
+        <div class="logo">RENTLY</div>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#how">Method</a>
+            <a href="#download">Get App</a>
+        </div>
+        <div class="logo" style="opacity: 0">RENTLY</div> <!-- Spacer -->
+    </nav>
+
+    <section class="hero">
+        <div class="hero-watermark">RENTLY RENTLY RENTLY</div>
+        
+        <div class="hero-car">
+            <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1200" alt="Supercar">
+        </div>
+
+        <div class="hero-hud">
+            <div class="hero-stats">
+                <div class="stat-block">
+                    <span class="stat-number count-up" data-target="1240">0</span>
+                    <span class="stat-label">Drivers</span>
+                </div>
+                <div class="stat-block">
+                    <span class="stat-number count-up" data-target="312">0</span>
+                    <span class="stat-label">Active Cars</span>
+                </div>
+                <div class="stat-block">
+                    <span class="stat-number count-up" data-target="856">0</span>
+                    <span class="stat-label">Trips Completed</span>
+                </div>
+            </div>
+
+            <div class="hero-headline">
+                DRIVE WHEN YOU WANT.
+            </div>
+
+            <div class="hero-bottom">
+                <div style="flex: 1"></div>
+                <a href="#download" class="hero-cta-card">Download App →</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-section" id="features">
+        <div class="container">
+            <h2 class="features-title fade-up">Why Rently?</h2>
+            
+            <div class="features-grid">
+                <!-- Card 1 -->
+                <div class="feature-card fade-up">
+                    <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <h3>Book in 60 seconds</h3>
+                    <p>Browse verified cars, pick your dates, confirm instantly. No paperwork, no phone calls, no waiting.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="feature-card fade-up">
+                    <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                    </svg>
+                    <h3>Paymob-Secured</h3>
+                    <p>Pay via card, e-wallet, or Fawry. Every transaction is HMAC-validated and fully encrypted for your safety.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="feature-card fade-up">
+                    <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"></path>
+                    </svg>
+                    <h3>Every Car. Verified.</h3>
+                    <p>All vehicles pass inspection and identity verification before listing. You see ratings, you book with confidence.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="stats-strip">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-block fade-up">
+                    <span class="stat-number count-up" data-target="1240">0</span>
+                    <span class="stat-label">Drivers</span>
+                </div>
+                <div class="stat-block fade-up">
+                    <span class="stat-number count-up" data-target="312">0</span>
+                    <span class="stat-label">Active Cars</span>
+                </div>
+                <div class="stat-block fade-up">
+                    <span class="stat-number count-up" data-target="856">0</span>
+                    <span class="stat-label">Trips Completed</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="how-section" id="how">
+        <div class="container">
+            <div class="how-list">
+                <div class="how-line"></div>
+                
+                <div class="how-item fade-up">
+                    <div class="how-num">01 /</div>
+                    <div class="how-content">
+                        <h4>Sign Up Free</h4>
+                        <p>Create your account in minutes. Verify your digital ID once and gain access to the entire fleet.</p>
+                    </div>
+                </div>
+
+                <div class="how-item fade-up">
+                    <div class="how-num">02 /</div>
+                    <div class="how-content">
+                        <h4>Browse & Book</h4>
+                        <p>Filter cars by location, date, and performance. One tap to confirm your booking instantly.</p>
+                    </div>
+                </div>
+
+                <div class="how-item fade-up">
+                    <div class="how-num">03 /</div>
+                    <div class="how-content">
+                        <h4>Drive & Return</h4>
+                        <p>Pick up your keys, enjoy the road, and return the car when you're done. No friction.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="download-cta" id="download">
+        <div class="container">
+            <h2 class="fade-up">GET RENTLY.</h2>
+            <p class="fade-up">Available now on iOS and Android.</p>
+            <div class="btn-group fade-up">
+                <a href="#" class="btn-outline">App Store</a>
+                <a href="#" class="btn-outline">Google Play</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="logo">RENTLY</div>
+        <div class="footer-links">
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+            <a href="#">Help</a>
+        </div>
+        <div class="copyright">© 2026 Rently Inc.</div>
+    </footer>
+
+    <script>
+        // NAVBAR SCROLL EFFECT
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // COUNTER ANIMATION
+        function animateCounter(el) {
+            if (el.classList.contains('counted')) return;
+            el.classList.add('counted');
+
+            const target = parseInt(el.getAttribute('data-target'));
+            let current = 0;
+            const duration = 2000;
+            const stepTime = Math.abs(Math.floor(duration / target));
+            
+            // Speed up for large numbers
+            const actualStepTime = stepTime < 10 ? 10 : stepTime;
+            const increment = target / (duration / actualStepTime);
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    el.innerText = target.toLocaleString() + (target === 1240 ? '+' : '');
+                    clearInterval(timer);
+                } else {
+                    el.innerText = Math.floor(current).toLocaleString();
+                }
+            }, actualStepTime);
+        }
+
+        // SCROLL REVEAL (Intersection Observer)
+        const revealItems = document.querySelectorAll('.fade-up');
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    // Staggering effect
+                    setTimeout(() => {
+                        entry.target.classList.add('active');
+                        
+                        // If it contains a counter, trigger it
+                        const counter = entry.target.querySelector('.count-up');
+                        if (counter) animateCounter(counter);
+                    }, index % 3 * 150);
+                }
+            });
+        }, observerOptions);
+
+        revealItems.forEach(item => revealObserver.observe(item));
+
+        // Initial check for hero counters since they are above the fold
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.hero .count-up').forEach(c => animateCounter(c));
+        });
+
+    </script>
+</body>
+</html>

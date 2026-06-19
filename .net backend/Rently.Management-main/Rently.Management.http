@@ -1,0 +1,6 @@
+@Renttly_HostAddress = http://localhost:5003
+
+GET {{Renttly_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

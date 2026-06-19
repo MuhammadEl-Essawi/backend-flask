@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rently API Test Report</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f8fafc; color: #1e293b; padding: 40px; max-width: 900px; margin: 0 auto; }
+        h1 { color: #0f172a; }
+        .score { font-size: 48px; font-weight: 800; color: #22c55e; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th { background: #1e293b; color: white; padding: 12px; text-align: left; }
+        td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; }
+        tr:hover { background: #f1f5f9; }
+        .card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>🚗 Rently API — Test Report</h1>
+    <p style="color:#64748b">Generated: 2026-02-27 02:46:35</p>
+
+    <div class="card" style="text-align:center">
+        <div class="score">92%</div>
+        <p style="font-size:18px">86 passed / 93 total (7 failed)</p>
+    </div>
+
+    <div class="card">
+        <h2>Summary by Section</h2>
+        <table>
+            <thead><tr><th>Section</th><th>Total</th><th>Passed</th><th>Failed</th><th>Score</th></tr></thead>
+            <tbody>
+        <tr>
+            <td style="font-weight:600">Auth</td>
+            <td>17</td>
+            <td style="color:#22c55e">16</td>
+            <td style="color:#ef4444">1</td>
+            <td style="color:#22c55e;font-weight:700">94.1%</td>
+        </tr>
+        <tr>
+            <td style="font-weight:600">Cars</td>
+            <td>12</td>
+            <td style="color:#22c55e">12</td>
+            <td style="color:#ef4444">0</td>
+            <td style="color:#22c55e;font-weight:700">100.0%</td>
+        </tr>
+        <tr>
+            <td style="font-weight:600">Bookings</td>
+            <td>11</td>
+            <td style="color:#22c55e">11</td>
+            <td style="color:#ef4444">0</td>
+            <td style="color:#22c55e;font-weight:700">100.0%</td>
+        </tr>
+        <tr>
+            <td style="font-weight:600">Favorites</td>
+            <td>5</td>
+            <td style="color:#22c55e">4</td>
+            <td style="color:#ef4444">1</td>
+            <td style="color:#eab308;font-weight:700">80.0%</td>
+        </tr>
+        <tr>
+            <td style="font-weight:600">Reviews</td>
+            <td>4</td>
+            <td style="color:#22c55e">4</td>
+            <td style="color:#ef4444">0</td>
+            <td style="color:#22c55e;font-weight:700">100.0%</td>
+        </tr>
+        <tr>
+            <td style="font-weight:600">Profile</td>
+            <td>4</td>
+            <td style="color:#22c55e">3</td>
+            <td style="color:#ef4444">1</td>
+            <td style="color:#eab308;font-weight:700">75.0%</td>
+        </tr>
+        <tr>
+            <td style="font-weight:600">Messages</td>
+            <td>8</td>
+            <td style="color:#22c55e">8</td>
+            <td style="color:#ef4444">0</td>
+            <td style="color:#22c55e;font-weight:700">100.0%</td>
+        </tr>
+        <tr>
+            <td style="font-weight:600">Notifications</td>
+            <td>5</td>
+            <td style="color:#22c55e">5</td>
+            <td style="color:#ef4444">0</td>
+            <td style="color:#22c55e;font-weight:700">100.0%</td>
+        </tr>
+        <tr>
+            <td style="font-weight:600">Search History</td>
+            <td>6</td>
+            <td style="color:#22c55e">2</td>
+            <td style="color:#ef4444">4</td>
+            <td style="color:#ef4444;font-weight:700">33.3%</td>
+        </tr>
+        <tr>
+            <td style="font-weight:600">Partner Program</td>
+            <td>4</td>
+            <td style="color:#22c55e">4</td>
+            <td style="color:#ef4444">0</td>
+            <td style="color:#22c55e;font-weight:700">100.0%</td>
+        </tr>
+        <tr>
+            <td style="font-weight:600">Static Pages</td>
+            <td>3</td>
+            <td style="color:#22c55e">3</td>
+            <td style="color:#ef4444">0</td>
+            <td style="color:#22c55e;font-weight:700">100.0%</td>
+        </tr>
+        <tr>
+            <td style="font-weight:600">JWT Security</td>
+            <td>7</td>
+            <td style="color:#22c55e">7</td>
+            <td style="color:#ef4444">0</td>
+            <td style="color:#22c55e;font-weight:700">100.0%</td>
+        </tr>
+        <tr>
+            <td style="font-weight:600">Webhook Security</td>
+            <td>4</td>
+            <td style="color:#22c55e">4</td>
+            <td style="color:#ef4444">0</td>
+            <td style="color:#22c55e;font-weight:700">100.0%</td>
+        </tr>
+        <tr>
+            <td style="font-weight:600">Upload Security</td>
+            <td>3</td>
+            <td style="color:#22c55e">3</td>
+            <td style="color:#ef4444">0</td>
+            <td style="color:#22c55e;font-weight:700">100.0%</td>
+        </tr></tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>Detailed Results</h2>
+        
+        <div style="margin-bottom:24px">
+            <h3 style="color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px">Auth
+                <span style="font-size:14px;color:#22c55e">
+                    (16/17)
+                </span>
+            </h3>
+            <div style="padding:4px 0;color:#22c55e">✓ Register: empty body → 400</div><div style="padding:4px 0;color:#22c55e">✓ Register: weak password → 400</div><div style="padding:4px 0;color:#ef4444">✗ Register: invalid email → 201</div><div style="padding:4px 0;color:#22c55e">✓ Register: role=admin → handled (overridden to renter)</div><div style="padding:4px 0;color:#22c55e">✓ Register: duplicate email → 400</div><div style="padding:4px 0;color:#22c55e">✓ Login: wrong password → 401</div><div style="padding:4px 0;color:#22c55e">✓ Login: non-existent user → 401</div><div style="padding:4px 0;color:#22c55e">✓ Login: empty body → 400</div><div style="padding:4px 0;color:#22c55e">✓ Forgot password: unknown email → 200 (anti-enumeration)</div><div style="padding:4px 0;color:#22c55e">✓ Forgot password: empty → 400</div><div style="padding:4px 0;color:#22c55e">✓ Verify OTP: empty → 400</div><div style="padding:4px 0;color:#22c55e">✓ Verify OTP: wrong code → rejected</div><div style="padding:4px 0;color:#22c55e">✓ Reset password: empty → 400</div><div style="padding:4px 0;color:#22c55e">✓ Change password: empty → 400</div><div style="padding:4px 0;color:#22c55e">✓ Change password: wrong current → 401</div><div style="padding:4px 0;color:#22c55e">✓ Change password: weak new → 400</div><div style="padding:4px 0;color:#22c55e">✓ Change password: no token → 401/422</div>
+        </div>
+        <div style="margin-bottom:24px">
+            <h3 style="color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px">Cars
+                <span style="font-size:14px;color:#22c55e">
+                    (12/12)
+                </span>
+            </h3>
+            <div style="padding:4px 0;color:#22c55e">✓ List cars → 200 with cars array</div><div style="padding:4px 0;color:#22c55e">✓ List cars with filters → 200</div><div style="padding:4px 0;color:#22c55e">✓ List cars: pagination fields present</div><div style="padding:4px 0;color:#22c55e">✓ Get car detail → has all expected fields</div><div style="padding:4px 0;color:#22c55e">✓ Get car 99999 → 404</div><div style="padding:4px 0;color:#22c55e">✓ My cars (owner) → 200</div><div style="padding:4px 0;color:#22c55e">✓ My cars (renter) → 403</div><div style="padding:4px 0;color:#22c55e">✓ Add car (renter) → 403</div><div style="padding:4px 0;color:#22c55e">✓ List cars: no token → 401/422</div><div style="padding:4px 0;color:#22c55e">✓ SQLi '' OR '1'='1' → no crash</div><div style="padding:4px 0;color:#22c55e">✓ SQLi ''; DROP TABLE car; --' → no crash</div><div style="padding:4px 0;color:#22c55e">✓ SQLi 'UNION SELECT 1,2,3' → no crash</div>
+        </div>
+        <div style="margin-bottom:24px">
+            <h3 style="color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px">Bookings
+                <span style="font-size:14px;color:#22c55e">
+                    (11/11)
+                </span>
+            </h3>
+            <div style="padding:4px 0;color:#22c55e">✓ Create booking → 201 (id=101)</div><div style="padding:4px 0;color:#22c55e">✓ Create booking: empty → 400</div><div style="padding:4px 0;color:#22c55e">✓ Create booking: end < start → 400</div><div style="padding:4px 0;color:#22c55e">✓ Create booking: past date → 400</div><div style="padding:4px 0;color:#22c55e">✓ List bookings: ?status=pending → 200</div><div style="padding:4px 0;color:#22c55e">✓ Get booking #101 → 200</div><div style="padding:4px 0;color:#22c55e">✓ Bookings calendar → 200</div><div style="padding:4px 0;color:#22c55e">✓ Approve booking (renter) → 403</div><div style="padding:4px 0;color:#22c55e">✓ Cancel booking #101 → 200</div><div style="padding:4px 0;color:#22c55e">✓ Cancel already cancelled → 400</div><div style="padding:4px 0;color:#22c55e">✓ Bookings: no token → 401/422</div>
+        </div>
+        <div style="margin-bottom:24px">
+            <h3 style="color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px">Favorites
+                <span style="font-size:14px;color:#ef4444">
+                    (4/5)
+                </span>
+            </h3>
+            <div style="padding:4px 0;color:#22c55e">✓ Add favorite → 201/400 (already exists)</div><div style="padding:4px 0;color:#ef4444">✗ Get favorites → 500</div><div style="padding:4px 0;color:#22c55e">✓ Add favorite car 99999 → 404</div><div style="padding:4px 0;color:#22c55e">✓ Remove favorite → 200/404</div><div style="padding:4px 0;color:#22c55e">✓ Favorites: no token → 401/422</div>
+        </div>
+        <div style="margin-bottom:24px">
+            <h3 style="color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px">Reviews
+                <span style="font-size:14px;color:#22c55e">
+                    (4/4)
+                </span>
+            </h3>
+            <div style="padding:4px 0;color:#22c55e">✓ List reviews → 200</div><div style="padding:4px 0;color:#22c55e">✓ Add review: rating=10 → rejected</div><div style="padding:4px 0;color:#22c55e">✓ Add review: empty → 400</div><div style="padding:4px 0;color:#22c55e">✓ Add review: no token → 401/422</div>
+        </div>
+        <div style="margin-bottom:24px">
+            <h3 style="color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px">Profile
+                <span style="font-size:14px;color:#ef4444">
+                    (3/4)
+                </span>
+            </h3>
+            <div style="padding:4px 0;color:#22c55e">✓ Get profile → has all expected fields</div><div style="padding:4px 0;color:#ef4444">✗ Update profile → 500</div><div style="padding:4px 0;color:#22c55e">✓ Update profile: email change → 400</div><div style="padding:4px 0;color:#22c55e">✓ Profile: no token → 401/422</div>
+        </div>
+        <div style="margin-bottom:24px">
+            <h3 style="color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px">Messages
+                <span style="font-size:14px;color:#22c55e">
+                    (8/8)
+                </span>
+            </h3>
+            <div style="padding:4px 0;color:#22c55e">✓ Send message → 201</div><div style="padding:4px 0;color:#22c55e">✓ Message to self → 400</div><div style="padding:4px 0;color:#22c55e">✓ Send message: empty → 400</div><div style="padding:4px 0;color:#22c55e">✓ Send message: too long → 400</div><div style="padding:4px 0;color:#22c55e">✓ Send message: user 99999 → 404</div><div style="padding:4px 0;color:#22c55e">✓ Get conversation → 200</div><div style="padding:4px 0;color:#22c55e">✓ Inbox: has unread_count + other_user fields</div><div style="padding:4px 0;color:#22c55e">✓ Inbox: no token → 401/422</div>
+        </div>
+        <div style="margin-bottom:24px">
+            <h3 style="color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px">Notifications
+                <span style="font-size:14px;color:#22c55e">
+                    (5/5)
+                </span>
+            </h3>
+            <div style="padding:4px 0;color:#22c55e">✓ Get notifications → 200</div><div style="padding:4px 0;color:#22c55e">✓ Unread count → has unread_count field</div><div style="padding:4px 0;color:#22c55e">✓ Mark all read → 200</div><div style="padding:4px 0;color:#22c55e">✓ Mark read #99999 → 404</div><div style="padding:4px 0;color:#22c55e">✓ Notifications: no token → 401/422</div>
+        </div>
+        <div style="margin-bottom:24px">
+            <h3 style="color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px">Search History
+                <span style="font-size:14px;color:#ef4444">
+                    (2/6)
+                </span>
+            </h3>
+            <div style="padding:4px 0;color:#ef4444">✗ Save search → 500</div><div style="padding:4px 0;color:#22c55e">✓ Save search: empty query → 400</div><div style="padding:4px 0;color:#ef4444">✗ Get search history → 500</div><div style="padding:4px 0;color:#ef4444">✗ Save duplicate → 500</div><div style="padding:4px 0;color:#ef4444">✗ Clear history → 500</div><div style="padding:4px 0;color:#22c55e">✓ Search history: no token → 401/422</div>
+        </div>
+        <div style="margin-bottom:24px">
+            <h3 style="color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px">Partner Program
+                <span style="font-size:14px;color:#22c55e">
+                    (4/4)
+                </span>
+            </h3>
+            <div style="padding:4px 0;color:#22c55e">✓ Apply as partner → 201/400 (already applied)</div><div style="padding:4px 0;color:#22c55e">✓ Apply: missing fields → 400</div><div style="padding:4px 0;color:#22c55e">✓ Partner status → 200</div><div style="padding:4px 0;color:#22c55e">✓ Partner apply: no token → 401/422</div>
+        </div>
+        <div style="margin-bottom:24px">
+            <h3 style="color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px">Static Pages
+                <span style="font-size:14px;color:#22c55e">
+                    (3/3)
+                </span>
+            </h3>
+            <div style="padding:4px 0;color:#22c55e">✓ Privacy policy → has title + content</div><div style="padding:4px 0;color:#22c55e">✓ Terms of service → 200</div><div style="padding:4px 0;color:#22c55e">✓ Invite info → 200</div>
+        </div>
+        <div style="margin-bottom:24px">
+            <h3 style="color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px">JWT Security
+                <span style="font-size:14px;color:#22c55e">
+                    (7/7)
+                </span>
+            </h3>
+            <div style="padding:4px 0;color:#22c55e">✓ Fake JWT on /cars → 401/422</div><div style="padding:4px 0;color:#22c55e">✓ Fake JWT on /bookings → 401/422</div><div style="padding:4px 0;color:#22c55e">✓ Fake JWT on /users/profile → 401/422</div><div style="padding:4px 0;color:#22c55e">✓ Fake JWT on /favorites → 401/422</div><div style="padding:4px 0;color:#22c55e">✓ Fake JWT on /notifications → 401/422</div><div style="padding:4px 0;color:#22c55e">✓ Fake JWT on /messages/inbox → 401/422</div><div style="padding:4px 0;color:#22c55e">✓ Fake JWT on /search/history → 401/422</div>
+        </div>
+        <div style="margin-bottom:24px">
+            <h3 style="color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px">Webhook Security
+                <span style="font-size:14px;color:#22c55e">
+                    (4/4)
+                </span>
+            </h3>
+            <div style="padding:4px 0;color:#22c55e">✓ Payment webhook: no key → 401</div><div style="padding:4px 0;color:#22c55e">✓ Payment webhook: wrong key → 401</div><div style="padding:4px 0;color:#22c55e">✓ Admin webhook: no key → 401</div><div style="padding:4px 0;color:#22c55e">✓ Admin webhook: wrong key → 401</div>
+        </div>
+        <div style="margin-bottom:24px">
+            <h3 style="color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px">Upload Security
+                <span style="font-size:14px;color:#22c55e">
+                    (3/3)
+                </span>
+            </h3>
+            <div style="padding:4px 0;color:#22c55e">✓ Upload .py/.exe as car → rejected/sanitized</div><div style="padding:4px 0;color:#22c55e">✓ Upload .php as profile → 400</div><div style="padding:4px 0;color:#22c55e">✓ Upload .jsp as partner photo → handled safely</div>
+        </div>
+    </div>
+</body>
+</html>

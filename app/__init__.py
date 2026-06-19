@@ -1,53 +1,48 @@
 # app/__init__.py
-import os
 from flask import Flask
-from .extensions import db, ma, jwt, cors, mail, limiter
+from .config import Config
+from .extensions import db, ma, jwt, cors, mail, limiter, migrate, cache 
 from .routes.auth import auth_bp
 from .routes.cars import cars_bp
 from .routes.bookings import bookings_bp
-from .routes.payments import payments_bp
-from .extensions import db, ma, jwt, cors, mail, limiter, migrate
-from app.routes.users import users_bp
-
+from .routes.users import users_bp
+from .routes.admin_webhooks import admin_bp 
+from .routes.payment_webhooks import payment_webhooks_bp 
+from .routes.reviews import reviews_bp
+from .routes.messages import messages_bp
+from .routes.notifications import notifications_bp
+from .routes.favorites import favorites_bp
+from .routes.search import search_bp
+from .routes.partner import partner_bp
+from .routes.static_pages import static_pages_bp
+from .routes.rently_webhooks import rently_webhooks_bp
 
 def create_app():
     app = Flask(__name__)
+    app.config.from_object(Config)
 
-    # absolute path to ensure data.db is created at project root
-    base_dir = os.path.abspath(os.path.dirname(__file__))
-    project_root = os.path.abspath(os.path.join(base_dir, os.pardir))
-    db_path = os.path.join(project_root, "data.db")
-
-    app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_path}"
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY", "super-secret-key")
-
-    # Mail config (example; set env vars in .env)
-    app.config["MAIL_SERVER"] = os.getenv("MAIL_SERVER", "")
-    app.config["MAIL_PORT"] = int(os.getenv("MAIL_PORT", "587") or 587)
-    app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME", "")
-    app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD", "")
-    app.config["MAIL_USE_TLS"] = os.getenv("MAIL_USE_TLS", "True") == "True"
-    app.config["MAIL_USE_SSL"] = os.getenv("MAIL_USE_SSL", "False") == "True"
-
-    # OTP config
-    app.config["OTP_EXPIRY_SECONDS"] = int(os.getenv("OTP_EXPIRY_SECONDS", 300))
-    app.config["OTP_LENGTH"] = int(os.getenv("OTP_LENGTH", 6))
-
-    # init extensions
     db.init_app(app)
     migrate.init_app(app, db)
     ma.init_app(app)
     jwt.init_app(app)
-    cors.init_app(app)
+    cors.init_app(app, origins=app.config["CORS_ORIGINS"]) 
     mail.init_app(app)
     limiter.init_app(app)
+    cache.init_app(app) 
 
-    # register blueprints
     app.register_blueprint(auth_bp)
     app.register_blueprint(cars_bp)
     app.register_blueprint(bookings_bp)
-    app.register_blueprint(payments_bp)
     app.register_blueprint(users_bp)
+    app.register_blueprint(admin_bp) 
+    app.register_blueprint(payment_webhooks_bp)
+    app.register_blueprint(reviews_bp)
+    app.register_blueprint(messages_bp)
+    app.register_blueprint(notifications_bp)
+    app.register_blueprint(favorites_bp)
+    app.register_blueprint(search_bp)
+    app.register_blueprint(partner_bp)
+    app.register_blueprint(static_pages_bp)
+    app.register_blueprint(rently_webhooks_bp)
 
     return app

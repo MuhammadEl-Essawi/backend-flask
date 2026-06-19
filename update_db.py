@@ -1,9 +1,9 @@
 # update_db.py
 from app.extensions import db
-from app import create_app  # ده الملف اللي بيعمل app = Flask(__name__) أو factory
+from app import create_app  
 from sqlalchemy import text
 
-app = create_app()  # لو انت عندك factory function
+app = create_app() 
 
 def add_missing_columns():
     with app.app_context():  # مهم جدًا

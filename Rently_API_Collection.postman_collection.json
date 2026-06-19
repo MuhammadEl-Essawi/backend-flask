@@ -1,0 +1,1511 @@
+{
+    "info": {
+        "name": "Rently Car Rental API",
+        "description": "Complete API collection for Rently car rental backend (Flask)",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:5000",
+            "type": "string"
+        },
+        {
+            "key": "access_token",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "user_id",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "internal_api_key",
+            "value": "your-internal-key",
+            "type": "string"
+        }
+    ],
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "token",
+                "value": "{{access_token}}",
+                "type": "string"
+            }
+        ]
+    },
+    "item": [
+        {
+            "name": "Auth",
+            "description": "Authentication & account management endpoints",
+            "item": [
+                {
+                    "name": "Register",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"first_name\": \"Ahmed\",\n  \"last_name\": \"Mohamed\",\n  \"email\": \"ahmed@example.com\",\n  \"phone\": \"+201234567890\",\n  \"password\": \"MyPass123\",\n  \"role\": \"renter\",\n  \"nationality\": \"Egyptian\",\n  \"agreed_to_terms\": true,\n  \"agreed_to_privacy\": true\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/register",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "register"
+                            ]
+                        },
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    }
+                },
+                {
+                    "name": "Verify OTP",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"user_id\": {{user_id}},\n  \"otp\": \"123456\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/verify-otp",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "verify-otp"
+                            ]
+                        },
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    }
+                },
+                {
+                    "name": "Resend OTP",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"user_id\": {{user_id}}\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/resend-otp",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "resend-otp"
+                            ]
+                        },
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    }
+                },
+                {
+                    "name": "Login",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "var jsonData = pm.response.json();",
+                                    "if (jsonData.access_token) {",
+                                    "    pm.collectionVariables.set('access_token', jsonData.access_token);",
+                                    "}",
+                                    "if (jsonData.user && jsonData.user.id) {",
+                                    "    pm.collectionVariables.set('user_id', jsonData.user.id);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"identifier\": \"ahmed@example.com\",\n  \"password\": \"MyPass123\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/login",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "login"
+                            ]
+                        },
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    }
+                },
+                {
+                    "name": "Forgot Password",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"ahmed@example.com\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/forgot-password",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "forgot-password"
+                            ]
+                        },
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    }
+                },
+                {
+                    "name": "Verify Reset Code",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"ahmed@example.com\",\n  \"otp\": \"123456\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/verify-reset-code",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "verify-reset-code"
+                            ]
+                        },
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    }
+                },
+                {
+                    "name": "Reset Password",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"ahmed@example.com\",\n  \"otp\": \"123456\",\n  \"new_password\": \"NewPass123\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/reset-password",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "reset-password"
+                            ]
+                        },
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    }
+                },
+                {
+                    "name": "Change Password (In-App)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"current_password\": \"MyPass123\",\n  \"new_password\": \"NewPass456\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/change-password",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "change-password"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Cars",
+            "description": "Car management endpoints",
+            "item": [
+                {
+                    "name": "List Cars (with filters)",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/cars?page=1&per_page=10",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "cars"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "per_page",
+                                    "value": "10"
+                                },
+                                {
+                                    "key": "brand",
+                                    "value": "Tesla",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "model",
+                                    "value": "Model S",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "min_year",
+                                    "value": "2020",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "max_year",
+                                    "value": "2025",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "min_price",
+                                    "value": "100",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "max_price",
+                                    "value": "5000",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "color",
+                                    "value": "white",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "transmission",
+                                    "value": "automatic",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "location",
+                                    "value": "Mansoura",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "available_from",
+                                    "value": "2026-03-01T00:00:00Z",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "available_to",
+                                    "value": "2026-03-10T00:00:00Z",
+                                    "disabled": true
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Car Details",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/cars/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "cars",
+                                "1"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "My Cars (Owner)",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/cars/my-cars?page=1&per_page=10",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "cars",
+                                "my-cars"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "per_page",
+                                    "value": "10"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Add Car (Owner)",
+                    "request": {
+                        "method": "POST",
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "brand",
+                                    "value": "Tesla",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "model",
+                                    "value": "Model S",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "year",
+                                    "value": "2024",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "price_per_day",
+                                    "value": "2000",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "transmission",
+                                    "value": "Automatic",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "color",
+                                    "value": "White",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "location_city",
+                                    "value": "Mansoura",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "description",
+                                    "value": "A car with high specs",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "features",
+                                    "value": "GPS,Bluetooth,Camera",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "license_plate",
+                                    "value": "ABC-1234",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "car_license_image",
+                                    "type": "file",
+                                    "src": ""
+                                },
+                                {
+                                    "key": "images",
+                                    "type": "file",
+                                    "src": ""
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/cars",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "cars"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Block Car Dates (Owner)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"start_date\": \"2026-04-01T00:00:00Z\",\n  \"end_date\": \"2026-04-05T00:00:00Z\",\n  \"reason\": \"Personal use\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/cars/1/block-dates",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "cars",
+                                "1",
+                                "block-dates"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Car (Owner)",
+                    "request": {
+                        "method": "PUT",
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "price_per_day",
+                                    "value": "2500",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "description",
+                                    "value": "Updated description",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "color",
+                                    "value": "Black",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "images",
+                                    "type": "file",
+                                    "src": ""
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/cars/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "cars",
+                                "1"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Car (Owner)",
+                    "request": {
+                        "method": "DELETE",
+                        "url": {
+                            "raw": "{{base_url}}/cars/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "cars",
+                                "1"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Check Car Availability",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/cars/1/availability?start_date=2026-04-01T00:00:00Z&end_date=2026-04-05T00:00:00Z",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "cars",
+                                "1",
+                                "availability"
+                            ],
+                            "query": [
+                                {
+                                    "key": "start_date",
+                                    "value": "2026-04-01T00:00:00Z"
+                                },
+                                {
+                                    "key": "end_date",
+                                    "value": "2026-04-05T00:00:00Z"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Bookings",
+            "description": "Booking management endpoints",
+            "item": [
+                {
+                    "name": "Create Booking",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"car_id\": 1,\n  \"start_date\": \"2026-03-19T10:30:00Z\",\n  \"end_date\": \"2026-03-22T17:00:00Z\",\n  \"rental_type\": \"day\",\n  \"contact_name\": \"Sara Ahmed Ali\",\n  \"contact_email\": \"sara@example.com\",\n  \"contact_phone\": \"+201234567890\",\n  \"pickup_location\": \"Mansoura\",\n  \"service_fee\": 15\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/bookings",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "bookings"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "List My Bookings",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/bookings?page=1&per_page=10",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "bookings"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "per_page",
+                                    "value": "10"
+                                },
+                                {
+                                    "key": "status",
+                                    "value": "pending",
+                                    "disabled": true
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "List Pending Requests (Owner)",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/bookings?status=pending&page=1&per_page=10",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "bookings"
+                            ],
+                            "query": [
+                                {
+                                    "key": "status",
+                                    "value": "pending"
+                                },
+                                {
+                                    "key": "page",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "per_page",
+                                    "value": "10"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Booking Details",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/bookings/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "bookings",
+                                "1"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Bookings Calendar",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/bookings/calendar",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "bookings",
+                                "calendar"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Approve Booking (Owner)",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "{{base_url}}/bookings/1/approve",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "bookings",
+                                "1",
+                                "approve"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Reject Booking (Owner)",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "{{base_url}}/bookings/1/reject",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "bookings",
+                                "1",
+                                "reject"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Cancel Booking (Renter)",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "{{base_url}}/bookings/1/cancel",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "bookings",
+                                "1",
+                                "cancel"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "User Profile",
+            "description": "User profile management endpoints",
+            "item": [
+                {
+                    "name": "Get My Profile",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/users/profile",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "users",
+                                "profile"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Profile",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"first_name\": \"Ahmed\",\n  \"last_name\": \"Mo\",\n  \"phone\": \"+201234567890\",\n  \"nationality\": \"Egyptian\",\n  \"preferred_language\": \"ar\",\n  \"theme\": \"dark\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/users/profile",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "users",
+                                "profile"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Upload Profile Photo",
+                    "request": {
+                        "method": "POST",
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "profile_image",
+                                    "type": "file",
+                                    "src": ""
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/users/profile/photo",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "users",
+                                "profile",
+                                "photo"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Upload Verification Documents",
+                    "request": {
+                        "method": "POST",
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "id_image",
+                                    "type": "file",
+                                    "src": "",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "license_image",
+                                    "type": "file",
+                                    "src": "",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "passport_image",
+                                    "type": "file",
+                                    "src": "",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "residence_proof_image",
+                                    "type": "file",
+                                    "src": "",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "job_proof_image",
+                                    "type": "file",
+                                    "src": "",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "selfie_image",
+                                    "type": "file",
+                                    "src": "",
+                                    "disabled": true
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/users/upload-documents",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "users",
+                                "upload-documents"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Favorites",
+            "description": "Favorite cars management",
+            "item": [
+                {
+                    "name": "Get My Favorites",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/favorites?page=1&per_page=10",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "favorites"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "per_page",
+                                    "value": "10"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Add to Favorites",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "{{base_url}}/favorites/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "favorites",
+                                "1"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Remove from Favorites",
+                    "request": {
+                        "method": "DELETE",
+                        "url": {
+                            "raw": "{{base_url}}/favorites/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "favorites",
+                                "1"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Reviews",
+            "description": "Car review endpoints",
+            "item": [
+                {
+                    "name": "Add Review",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"car_id\": 1,\n  \"rating\": 5,\n  \"comment\": \"The rental car was clean, reliable, and the service was quick and efficient.\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/reviews",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "reviews"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "List Reviews (by car)",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/reviews?car_id=1&page=1&per_page=10",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "reviews"
+                            ],
+                            "query": [
+                                {
+                                    "key": "car_id",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "page",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "per_page",
+                                    "value": "10"
+                                },
+                                {
+                                    "key": "renter_id",
+                                    "value": "1",
+                                    "disabled": true
+                                }
+                            ]
+                        },
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Review",
+                    "request": {
+                        "method": "DELETE",
+                        "url": {
+                            "raw": "{{base_url}}/reviews/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "reviews",
+                                "1"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Messages / Chat",
+            "description": "Chat and messaging endpoints",
+            "item": [
+                {
+                    "name": "Send Message",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"receiver_id\": 2,\n  \"content\": \"I'll complete the booking now. Thank you!\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/messages",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "messages"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Conversation",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/messages/2?page=1&per_page=50",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "messages",
+                                "2"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "per_page",
+                                    "value": "50"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Inbox (Chat List)",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/messages/inbox",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "messages",
+                                "inbox"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Notifications",
+            "description": "Notification management endpoints",
+            "item": [
+                {
+                    "name": "Get Notifications",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/notifications?page=1&per_page=20",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "notifications"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "per_page",
+                                    "value": "20"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Unread Count",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/notifications/unread-count",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "notifications",
+                                "unread-count"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Mark All as Read",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "{{base_url}}/notifications/mark-read",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "notifications",
+                                "mark-read"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Mark Single as Read",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "{{base_url}}/notifications/1/read",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "notifications",
+                                "1",
+                                "read"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Search History",
+            "description": "Search history endpoints (Recent searches)",
+            "item": [
+                {
+                    "name": "Get Search History",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/search/history",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "search",
+                                "history"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Save Search",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"query\": \"Ferrari Mansoura\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/search/history",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "search",
+                                "history"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Clear All Search History",
+                    "request": {
+                        "method": "DELETE",
+                        "url": {
+                            "raw": "{{base_url}}/search/history",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "search",
+                                "history"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Single Search Entry",
+                    "request": {
+                        "method": "DELETE",
+                        "url": {
+                            "raw": "{{base_url}}/search/history/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "search",
+                                "history",
+                                "1"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Partner Program",
+            "description": "Partner/owner application endpoints",
+            "item": [
+                {
+                    "name": "Apply as Partner",
+                    "request": {
+                        "method": "POST",
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "full_name",
+                                    "value": "Ahmed Mohamed",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "email",
+                                    "value": "ahmed@example.com",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "contact",
+                                    "value": "+201234567890",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "driving_license_number",
+                                    "value": "DL-123456",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "car_brand",
+                                    "value": "Tesla",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "car_model",
+                                    "value": "Model S",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "photo",
+                                    "type": "file",
+                                    "src": ""
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/partner/apply",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "partner",
+                                "apply"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Check Application Status",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/partner/status",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "partner",
+                                "status"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Static Pages",
+            "description": "Static content endpoints (no auth required)",
+            "item": [
+                {
+                    "name": "Privacy Policy",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/pages/privacy-policy",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "pages",
+                                "privacy-policy"
+                            ]
+                        },
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    }
+                },
+                {
+                    "name": "Terms of Service",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/pages/terms",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "pages",
+                                "terms"
+                            ]
+                        },
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    }
+                },
+                {
+                    "name": "Invite Friends Info",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/pages/invite-info",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "pages",
+                                "invite-info"
+                            ]
+                        },
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Webhooks (Internal)",
+            "description": "Internal webhook endpoints (requires X-Internal-Api-Key header)",
+            "item": [
+                {
+                    "name": "Confirm Booking Payment",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "X-Internal-Api-Key",
+                                "value": "{{internal_api_key}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"booking_id\": 1,\n  \"payment_status\": \"completed\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/payment-webhooks/confirm-booking",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "payment-webhooks",
+                                "confirm-booking"
+                            ]
+                        },
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    }
+                },
+                {
+                    "name": "Update User Status (Admin)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "X-Internal-Api-Key",
+                                "value": "{{internal_api_key}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"user_id\": 1,\n  \"approval_status\": \"approved\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/admin-webhooks/update-user-status",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "admin-webhooks",
+                                "update-user-status"
+                            ]
+                        },
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

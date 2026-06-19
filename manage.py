@@ -1,20 +1,19 @@
+
 import os
+from dotenv import load_dotenv  
+load_dotenv()                   
+
 from app import create_app
-from app.extensions import db
 
 app = create_app()
 
-# ✅ تحديد المسار الحقيقي لقاعدة البيانات
-db_path = os.path.abspath("data.db")
-print(f"📂 Database will be stored at: {db_path}")
-
-with app.app_context():
-    # 🗑 اعمل Drop لكل الجداول (اختياري لو عايز تبدأ من جديد)
-    # db.drop_all()
-
-    # ✅ اعمل Create للجداول لو مش موجودة
-    db.create_all()
-    print("🎉 Database & tables created successfully!")
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    
+    host = os.getenv("FLASK_RUN_HOST", "127.0.0.1")
+    port = int(os.getenv("FLASK_RUN_PORT", "5000"))
+    debug_mode = os.getenv("FLASK_ENV") == "development"
+
+    print(f"🚀 Starting server on http://{host}:{port}/")
+    print(f"   Debug mode: {'on' if debug_mode else 'off'}")
+    
+    app.run(host=host, port=port, debug=debug_mode)

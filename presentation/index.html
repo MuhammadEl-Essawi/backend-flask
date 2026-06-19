@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rently - Backend Presentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#020617;--primary:#0F172A;--secondary:#1E293B;--accent:#334155;--cta:#22C55E;--text:#F8FAFC;--muted:#94A3B8;--red:#EF4444;--yellow:#EAB308;--purple:#A78BFA;--blue:#3B82F6}
+body{background:var(--bg);color:var(--text);font-family:'Fira Sans',sans-serif;overflow:hidden;height:100vh;width:100vw}
+.deck{position:relative;width:100%;height:100%}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:80px 100px;opacity:0;pointer-events:none;transition:opacity .6s ease,transform .6s ease;transform:translateX(60px)}
+.slide.active{opacity:1;pointer-events:auto;transform:translateX(0)}
+.slide.prev{transform:translateX(-60px)}
+
+/* Nav */
+.nav{position:fixed;bottom:30px;right:40px;display:flex;gap:12px;z-index:100}
+.nav button{width:48px;height:48px;border-radius:12px;border:1px solid var(--accent);background:var(--primary);color:var(--text);font-size:18px;cursor:pointer;transition:.3s}
+.nav button:hover{background:var(--cta);border-color:var(--cta);color:#000}
+.progress{position:fixed;top:0;left:0;height:3px;background:var(--cta);transition:width .4s ease;z-index:100}
+.slide-num{position:fixed;bottom:36px;left:40px;font-family:'Fira Code',monospace;color:var(--muted);font-size:14px;z-index:100}
+.logo-fixed{position:fixed;top:30px;left:40px;font-family:'Fira Code',monospace;font-weight:700;font-size:20px;color:var(--cta);z-index:100;letter-spacing:-1px}
+
+/* Typography */
+h1{font-size:3.5rem;font-weight:900;line-height:1.1;margin-bottom:20px}
+h2{font-size:2.4rem;font-weight:700;margin-bottom:16px}
+h3{font-size:1.4rem;font-weight:600;margin-bottom:10px}
+p,.desc{font-size:1.1rem;color:var(--muted);line-height:1.7;max-width:700px}
+.accent{color:var(--cta)}
+.purple{color:var(--purple)}
+.blue{color:var(--blue)}
+.tag{display:inline-block;padding:6px 16px;border-radius:20px;font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:20px}
+.tag-green{background:rgba(34,197,94,.15);color:var(--cta)}
+.tag-purple{background:rgba(167,139,250,.15);color:var(--purple)}
+.tag-blue{background:rgba(59,130,246,.15);color:var(--blue)}
+
+/* Cards Grid */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:30px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:30px}
+.grid-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;margin-top:30px}
+.card{background:var(--primary);border:1px solid var(--secondary);border-radius:16px;padding:28px;transition:.3s}
+.card:hover{border-color:var(--cta);transform:translateY(-4px)}
+.card h3{color:var(--text);font-size:1.1rem}
+.card p{font-size:.9rem;color:var(--muted);line-height:1.5}
+.card .icon{font-size:28px;margin-bottom:12px}
+.card-stat{text-align:center;padding:32px 20px}
+.card-stat .num{font-size:2.8rem;font-weight:900;color:var(--cta);font-family:'Fira Code',monospace}
+.card-stat .label{color:var(--muted);font-size:.85rem;margin-top:6px;text-transform:uppercase;letter-spacing:1px}
+
+/* Table */
+table{width:100%;border-collapse:collapse;margin-top:20px;font-size:.9rem}
+th{text-align:left;padding:12px 16px;color:var(--muted);font-weight:500;border-bottom:1px solid var(--secondary);font-size:.8rem;text-transform:uppercase;letter-spacing:1px}
+td{padding:12px 16px;border-bottom:1px solid rgba(30,41,59,.5)}
+tr:hover td{background:rgba(15,23,42,.5)}
+.badge{padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:600}
+.badge-green{background:rgba(34,197,94,.15);color:var(--cta)}
+.badge-red{background:rgba(239,68,68,.15);color:var(--red)}
+.badge-yellow{background:rgba(234,179,8,.15);color:var(--yellow)}
+
+/* Code */
+.code-block{background:var(--primary);border:1px solid var(--secondary);border-radius:12px;padding:24px;font-family:'Fira Code',monospace;font-size:.82rem;color:var(--muted);overflow-x:auto;line-height:1.8;margin-top:16px}
+.code-block .kw{color:var(--purple)}
+.code-block .fn{color:var(--blue)}
+.code-block .str{color:var(--cta)}
+.code-block .cmt{color:#475569}
+
+/* Flow diagram */
+.flow{display:flex;align-items:center;gap:12px;margin-top:24px;flex-wrap:wrap}
+.flow-step{background:var(--primary);border:1px solid var(--secondary);border-radius:12px;padding:16px 24px;font-weight:600;font-size:.9rem}
+.flow-arrow{color:var(--cta);font-size:1.2rem}
+
+/* Title slide special */
+.title-slide{justify-content:center;align-items:center;text-align:center}
+.title-slide h1{font-size:5rem;letter-spacing:-2px}
+.title-slide .subtitle{font-size:1.3rem;color:var(--muted);margin-top:10px}
+.title-slide .byline{margin-top:40px;font-size:.9rem;color:var(--accent)}
+
+/* Architecture */
+.arch-box{background:var(--primary);border:1px solid var(--secondary);border-radius:16px;padding:20px 28px;text-align:center;font-weight:600;font-size:.9rem}
+.arch-box.highlight{border-color:var(--cta);box-shadow:0 0 20px rgba(34,197,94,.15)}
+.arch-connector{color:var(--cta);font-size:2rem;text-align:center}
+
+/* Two col layout */
+.two-col{display:flex;gap:50px;margin-top:30px;align-items:flex-start}
+.two-col .col{flex:1}
+
+/* List */
+.feature-list{list-style:none;margin-top:16px}
+.feature-list li{padding:10px 0;border-bottom:1px solid rgba(30,41,59,.4);color:var(--muted);font-size:.95rem;display:flex;align-items:center;gap:10px}
+.feature-list li::before{content:"✓";color:var(--cta);font-weight:700;font-size:1.1rem}
+
+@media print{
+  .nav,.progress,.slide-num,.logo-fixed{display:none!important}
+  .slide{position:relative!important;opacity:1!important;transform:none!important;pointer-events:auto!important;page-break-after:always;min-height:100vh}
+}
+</style>
+</head>
+<body>
+
+<div class="logo-fixed">RENTLY</div>
+<div class="progress" id="progress"></div>
+<div class="slide-num" id="slideNum"></div>
+
+<div class="deck" id="deck">
+
+<!-- SLIDE 1: Title -->
+<div class="slide title-slide active" data-slide="0">
+  <span class="tag tag-green">Graduation Project 2026</span>
+  <h1><span class="accent">RENTLY</span></h1>
+  <p class="subtitle">Flask Backend — Peer-to-Peer Car Rental Platform</p>
+  <div class="byline">Mobile-facing RESTful API · JWT Auth · HMAC Webhooks · Docker</div>
+</div>
+
+<!-- SLIDE 2: Overview -->
+<div class="slide" data-slide="1">
+  <span class="tag tag-green">Overview</span>
+  <h2>What is <span class="accent">Rently</span> Backend?</h2>
+  <p>The mobile-facing RESTful API powering Egypt's peer-to-peer car rental platform. Handles authentication, listings, bookings, payments, messaging & admin integration.</p>
+  <div class="grid-4" style="margin-top:40px">
+    <div class="card card-stat"><div class="num">13</div><div class="label">Blueprints</div></div>
+    <div class="card card-stat"><div class="num">10</div><div class="label">Data Models</div></div>
+    <div class="card card-stat"><div class="num">40+</div><div class="label">API Endpoints</div></div>
+    <div class="card card-stat"><div class="num">6</div><div class="label">Security Layers</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 3: Tech Stack -->
+<div class="slide" data-slide="2">
+  <span class="tag tag-purple">Technology</span>
+  <h2>Tech Stack</h2>
+  <div class="grid-3">
+    <div class="card"><div class="icon">🐍</div><h3>Flask + Python 3.12</h3><p>Application Factory pattern with modular blueprints</p></div>
+    <div class="card"><div class="icon">🗄️</div><h3>SQLAlchemy + Alembic</h3><p>ORM with migration support for 10 relational models</p></div>
+    <div class="card"><div class="icon">🔐</div><h3>JWT Extended</h3><p>Access (30min) + Refresh (30day) token auth</p></div>
+    <div class="card"><div class="icon">📧</div><h3>Flask-Mail</h3><p>OTP verification & booking notification emails</p></div>
+    <div class="card"><div class="icon">🛡️</div><h3>Flask-Limiter</h3><p>Rate limiting on all sensitive endpoints</p></div>
+    <div class="card"><div class="icon">🐳</div><h3>Docker + Gunicorn</h3><p>Containerized production with 4 workers</p></div>
+  </div>
+</div>
+
+<!-- SLIDE 4: Architecture -->
+<div class="slide" data-slide="3">
+  <span class="tag tag-blue">Architecture</span>
+  <h2>System Architecture</h2>
+  <div class="grid-3" style="margin-top:40px;text-align:center">
+    <div class="arch-box">📱 Mobile App<br><small style="color:var(--muted)">Flutter Client</small></div>
+    <div class="arch-box highlight">⚡ Flask API<br><small style="color:var(--cta)">Our Backend</small></div>
+    <div class="arch-box">🖥️ .NET Dashboard<br><small style="color:var(--muted)">Admin Panel</small></div>
+  </div>
+  <div class="grid-3" style="margin-top:8px">
+    <div class="arch-connector">↕</div>
+    <div class="arch-connector">↕</div>
+    <div class="arch-connector">↕</div>
+  </div>
+  <div class="grid-3" style="margin-top:8px;text-align:center">
+    <div class="arch-box">JWT + REST</div>
+    <div class="arch-box">SQLite / PostgreSQL</div>
+    <div class="arch-box">HMAC Webhooks</div>
+  </div>
+</div>
+
+<!-- SLIDE 5: Data Models -->
+<div class="slide" data-slide="4">
+  <span class="tag tag-purple">Database</span>
+  <h2>Data Models (10 Models)</h2>
+  <div class="two-col">
+    <div class="col">
+      <table>
+        <tr><th>Model</th><th>Key Relationships</th></tr>
+        <tr><td><span class="accent">User</span></td><td>owns Cars, makes Bookings, writes Reviews</td></tr>
+        <tr><td><span class="accent">Car</span></td><td>has Images, Bookings, Reviews, Blocked Dates</td></tr>
+        <tr><td><span class="accent">Booking</span></td><td>links Car ↔ Renter with status lifecycle</td></tr>
+        <tr><td><span class="accent">Review</span></td><td>Renter → Car, updates average_rating</td></tr>
+        <tr><td><span class="accent">Message</span></td><td>Sender ↔ Receiver in-app chat</td></tr>
+      </table>
+    </div>
+    <div class="col">
+      <table>
+        <tr><th>Model</th><th>Purpose</th></tr>
+        <tr><td><span class="accent">Notification</span></td><td>Auto-triggered event alerts</td></tr>
+        <tr><td><span class="accent">OTP</span></td><td>Hashed codes with expiry & attempts</td></tr>
+        <tr><td><span class="accent">Favorite</span></td><td>User ↔ Car wishlist</td></tr>
+        <tr><td><span class="accent">SearchHistory</span></td><td>Recent search queries</td></tr>
+        <tr><td><span class="accent">PartnerApp</span></td><td>Partner program requests</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6: Auth Flow -->
+<div class="slide" data-slide="5">
+  <span class="tag tag-green">Authentication</span>
+  <h2>Registration & OTP Flow</h2>
+  <div class="flow">
+    <div class="flow-step">📝 Register</div><div class="flow-arrow">→</div>
+    <div class="flow-step">📧 Send OTP</div><div class="flow-arrow">→</div>
+    <div class="flow-step">✅ Verify OTP</div><div class="flow-arrow">→</div>
+    <div class="flow-step">🔑 JWT Token</div><div class="flow-arrow">→</div>
+    <div class="flow-step">🚗 Access API</div>
+  </div>
+  <div class="grid-2" style="margin-top:30px">
+    <div class="card">
+      <h3>🔒 Password Policy</h3>
+      <ul class="feature-list">
+        <li>Minimum 8 characters</li>
+        <li>Uppercase + Lowercase required</li>
+        <li>At least one digit</li>
+        <li>Werkzeug hash (bcrypt-like)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🔑 OTP Security</h3>
+      <ul class="feature-list">
+        <li>6-digit cryptographic generation</li>
+        <li>Hashed storage (never plaintext)</li>
+        <li>5-minute expiry window</li>
+        <li>Max 5 attempts then lockout</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 7: API Endpoints -->
+<div class="slide" data-slide="6">
+  <span class="tag tag-blue">API</span>
+  <h2>Core API Endpoints</h2>
+  <table>
+    <tr><th>Blueprint</th><th>Prefix</th><th>Key Operations</th><th>Auth</th></tr>
+    <tr><td><span class="accent">Auth</span></td><td>/auth</td><td>Register, Login, OTP, Password Reset</td><td><span class="badge badge-yellow">Partial</span></td></tr>
+    <tr><td><span class="accent">Cars</span></td><td>/cars</td><td>CRUD, Filter, Availability, Block Dates</td><td><span class="badge badge-green">JWT</span></td></tr>
+    <tr><td><span class="accent">Bookings</span></td><td>/bookings</td><td>Create, Approve, Reject, Cancel, Calendar</td><td><span class="badge badge-green">JWT</span></td></tr>
+    <tr><td><span class="accent">Users</span></td><td>/users</td><td>Profile, KYC Documents, Photo Upload</td><td><span class="badge badge-green">JWT</span></td></tr>
+    <tr><td><span class="accent">Reviews</span></td><td>/reviews</td><td>Add, List with Pagination, Delete</td><td><span class="badge badge-green">JWT</span></td></tr>
+    <tr><td><span class="accent">Messages</span></td><td>/messages</td><td>Send, Conversation View, Inbox</td><td><span class="badge badge-green">JWT</span></td></tr>
+    <tr><td><span class="accent">Webhooks</span></td><td>/webhooks</td><td>HMAC-signed .NET ↔ Flask events</td><td><span class="badge badge-red">HMAC</span></td></tr>
+  </table>
+</div>
+
+<!-- SLIDE 8: Security -->
+<div class="slide" data-slide="7">
+  <span class="tag tag-purple">Security</span>
+  <h2>Security Implementation</h2>
+  <div class="grid-3">
+    <div class="card"><div class="icon">🔐</div><h3>JWT Auth</h3><p>30min access + 30day refresh tokens with role claims</p></div>
+    <div class="card"><div class="icon">🛡️</div><h3>Rate Limiting</h3><p>5/min register, 10/min login, 3/hr password reset</p></div>
+    <div class="card"><div class="icon">🔏</div><h3>HMAC-SHA256</h3><p>Webhook signature verification for .NET integration</p></div>
+    <div class="card"><div class="icon">🚫</div><h3>IDOR Protection</h3><p>Ownership checks on all mutation endpoints</p></div>
+    <div class="card"><div class="icon">💉</div><h3>Injection Prevention</h3><p>LIKE escape, Marshmallow validation, file type checks</p></div>
+    <div class="card"><div class="icon">📁</div><h3>File Security</h3><p>10MB limit, allowed extensions only (png, jpg, webp)</p></div>
+  </div>
+</div>
+
+<!-- SLIDE 9: Booking Flow -->
+<div class="slide" data-slide="8">
+  <span class="tag tag-green">Business Logic</span>
+  <h2>Booking Lifecycle</h2>
+  <div class="flow" style="margin-top:20px">
+    <div class="flow-step" style="border-color:var(--yellow)">⏳ Pending</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step" style="border-color:var(--cta)">✅ Approved</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step" style="border-color:var(--blue)">🚗 Active</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">✔️ Completed</div>
+  </div>
+  <div class="grid-2" style="margin-top:30px">
+    <div class="card">
+      <h3>Smart Conflict Resolution</h3>
+      <ul class="feature-list">
+        <li>Date overlap detection on approval</li>
+        <li>Auto-reject conflicting pending bookings</li>
+        <li>Blocked dates respected in availability</li>
+        <li>Self-booking prevention (owner ≠ renter)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Auto Notifications</h3>
+      <ul class="feature-list">
+        <li>Owner notified on new booking request</li>
+        <li>Renter notified on approval/rejection</li>
+        <li>Email sent on booking approval</li>
+        <li>Cascade notifications on auto-reject</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 10: Webhook Integration -->
+<div class="slide" data-slide="9">
+  <span class="tag tag-blue">Integration</span>
+  <h2>.NET ↔ Flask Webhooks</h2>
+  <div class="two-col">
+    <div class="col">
+      <p>Secure bi-directional communication with the .NET admin dashboard using HMAC-SHA256 signed payloads.</p>
+      <div class="code-block" style="margin-top:20px">
+<span class="cmt"># Webhook signature verification</span>
+<span class="kw">def</span> <span class="fn">_verify_signature</span>(payload, sig):
+    expected = hmac.<span class="fn">new</span>(
+        secret.<span class="fn">encode</span>(<span class="str">"utf-8"</span>),
+        payload, hashlib.sha256
+    ).<span class="fn">hexdigest</span>()
+    <span class="kw">return</span> hmac.<span class="fn">compare_digest</span>(
+        expected, sig
+    )
+      </div>
+    </div>
+    <div class="col">
+      <h3 style="margin-top:0">Supported Events</h3>
+      <ul class="feature-list">
+        <li>payment.created</li>
+        <li>payment.updated</li>
+        <li>payment.refund_requested</li>
+        <li>user.updated</li>
+        <li>car.status_changed</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 11: Seeding & Testing -->
+<div class="slide" data-slide="10">
+  <span class="tag tag-purple">Testing</span>
+  <h2>Database Seeding & Testing</h2>
+  <div class="grid-3" style="margin-top:30px">
+    <div class="card card-stat"><div class="num">1,000</div><div class="label">Seeded Users</div></div>
+    <div class="card card-stat"><div class="num">300</div><div class="label">Seeded Cars</div></div>
+    <div class="card card-stat"><div class="num">3,000</div><div class="label">Seeded Bookings</div></div>
+  </div>
+  <div class="grid-2" style="margin-top:24px">
+    <div class="card">
+      <h3>🇪🇬 Egyptian Test Data</h3>
+      <ul class="feature-list">
+        <li>Real Egyptian names & cities</li>
+        <li>Arabic brand translations</li>
+        <li>11 car brands with realistic pricing</li>
+        <li>85% renters / 15% owners split</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>📋 Postman Collection</h3>
+      <ul class="feature-list">
+        <li>60+ requests organized by blueprint</li>
+        <li>Environment variables configured</li>
+        <li>Auto-token refresh setup</li>
+        <li>Security penetration test suite</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 12: Thank you -->
+<div class="slide title-slide" data-slide="11">
+  <span class="tag tag-green">Thank You</span>
+  <h1 style="font-size:4rem"><span class="accent">Thank You</span></h1>
+  <p class="subtitle">Questions & Discussion</p>
+  <div class="byline" style="margin-top:30px">
+    Flask Backend · 13 Blueprints · 40+ Endpoints · Production Ready<br>
+    <span style="color:var(--cta);font-weight:700;font-size:1.1rem">RENTLY © 2026</span>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- Navigation -->
+<div class="nav">
+  <button onclick="prevSlide()" id="prevBtn">←</button>
+  <button onclick="nextSlide()" id="nextBtn">→</button>
+</div>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+
+function showSlide(n) {
+  slides.forEach((s, i) => {
+    s.classList.remove('active', 'prev');
+    if (i === n) s.classList.add('active');
+    else if (i < n) s.classList.add('prev');
+  });
+  current = n;
+  document.getElementById('progress').style.width = ((n + 1) / total * 100) + '%';
+  document.getElementById('slideNum').textContent = (n + 1) + ' / ' + total;
+}
+
+function nextSlide() { if (current < total - 1) showSlide(current + 1); }
+function prevSlide() { if (current > 0) showSlide(current - 1); }
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+});
+
+showSlide(0);
+</script>
+</body>
+</html>

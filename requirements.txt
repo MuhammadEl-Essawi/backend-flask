@@ -5,6 +5,11 @@ Flask-JWT-Extended
 Flask-Marshmallow
 marshmallow-sqlalchemy
 Flask-Cors
+Flask-Mail
+Flask-Limiter
+Flask-Caching
 python-dotenv
 psycopg2-binary
+pyodbc
 Werkzeug
+gunicorn
